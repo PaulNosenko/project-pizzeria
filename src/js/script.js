@@ -81,7 +81,8 @@
 
     initAccordion() {
       /* find the clickable trigger (the element that should react to clicking) */
-      const clickableTrigger = this.element;
+      const clickableTrigger = this.element.querySelector(select.menuProduct.clickable);
+      const currentProductElement = this.element;
       console.log(clickableTrigger)
 
       /* START: add event listener to clickable trigger on event click */
@@ -93,12 +94,12 @@
         const activeProduct = document.querySelector(select.all.menuProductsActive);
 
         /* if there is active product and it's not thisProduct.element, remove class active from it */
-        if (activeProduct && activeProduct !== clickableTrigger) {
+        if (activeProduct && activeProduct !== currentProductElement) {
           activeProduct.classList.remove('active');
         }
 
         /* toggle active class on thisProduct.element */
-        clickableTrigger.classList.toggle('active');
+        currentProductElement.classList.toggle('active');
 
       });
 
