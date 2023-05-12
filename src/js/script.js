@@ -58,9 +58,10 @@
       this.id = id;
       this.data = data;
       this.renderInMenu();
+      this.getElements();
       this.initAccordion();
-
-      console.log('new Product', this);
+      this.initOrderForm();
+      this.processOrder();
     }
 
     renderInMenu() {
@@ -79,14 +80,20 @@
 
     }
 
+    getElements() {
+      this.accordionTrigger = this.element.querySelector(select.menuProduct.clickable);
+      this.form = this.element.querySelector(select.menuProduct.form);
+      this.formInputs = this.form.querySelectorAll(select.all.formInputs);
+      this.cartButton = this.element.querySelector(select.menuProduct.cartButton);
+      this.priceElem = this.element.querySelector(select.menuProduct.priceElem);
+    }
+
     initAccordion() {
       /* find the clickable trigger (the element that should react to clicking) */
-      const clickableTrigger = this.element.querySelector(select.menuProduct.clickable);
       const currentProductElement = this.element;
-      console.log(clickableTrigger)
 
       /* START: add event listener to clickable trigger on event click */
-      clickableTrigger.addEventListener('click', function (event) {
+      this.accordionTrigger.addEventListener('click', function (event) {
         /* prevent default action for event */
         event.preventDefault();
 
@@ -102,9 +109,57 @@
         currentProductElement.classList.toggle('active');
 
       });
-
     }
+
+    initOrderForm() {
+      this.form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        this.processOrder();
+      });
+      
+      for(let input of this.formInputs){
+        input.addEventListener('change', () => {
+          this.processOrder();
+        });
+      }
+      
+      this.cartButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        this.processOrder();
+      });
+    }
+   
+    processOrder() {
+      const thisProduct = this;
     
+      // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
+      const formData = utils.serializeFormToObject(thisProduct.form);
+    
+      // set price to default price
+      let price = thisProduct.data.price;
+    
+      // for every category (param)...
+      for(let paramId in thisProduct.data.params) {
+        // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
+        const param = thisProduct.data.params[paramId];
+        const selectedOptionsIds = formData[paramId];
+
+        // for every option in this category
+        for(let currentOptionId in param.options) {
+          const option = param.options[currentOptionId];
+
+          if (option.default && !selectedOptionsIds.includes(currentOptionId)) {
+            price -= option.price;
+          }
+
+          if (!option.default && selectedOptionsIds.includes(currentOptionId)) {
+            price += option.price;
+          }
+        }
+      }
+      // update calculated price in the HTML
+      thisProduct.priceElem.innerHTML = price;
+    }
   }
 
 
@@ -118,12 +173,6 @@ const app = {
     this.data = dataSource;
   },
   init: function () {
-    console.log('*** App starting ***');
-    console.log('thisApp:', this);
-    console.log('classNames:', classNames);
-    console.log('settings:', settings);
-    console.log('templates:', templates);
-
     this.initData();
     this.initMenu();
   },
