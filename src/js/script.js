@@ -192,7 +192,7 @@
   class AmountWidget{
     constructor(element) {
       this.getElements(element);
-      this.setValue(this.input.value);
+      this.setValue(settings.amountWidget.defaultValue);
       this.initActions();
     }
 
