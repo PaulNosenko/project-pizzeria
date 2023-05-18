@@ -276,7 +276,7 @@
     }
 
     initActions() {
-      this.dom.wrapper.addEventListener('click', () => {
+      this.dom.toggleTrigger.addEventListener('click', () => {
         this.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
       });
     }
