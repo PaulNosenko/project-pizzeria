@@ -429,7 +429,7 @@
           cartProduct: this
         }
       });
-console.log('removing ...');
+      
       this.dom.wrapper.dispatchEvent(event);
     }
   }
