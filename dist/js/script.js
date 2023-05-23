@@ -356,29 +356,22 @@
 
     update() {
       const deliveryFee = settings.cart.defaultDeliveryFee;
-      let totalNumber = 0;
-      let subtotalPrice = 0;
+      this.totalNumber = 0;
+      this.subtotalPrice = 0;
 
       this.products.forEach((product) => {
-        totalNumber += product.amountWidget.value;
-        subtotalPrice += product.price;
+        this.totalNumber += product.amountWidget.value;
+        this.subtotalPrice += product.price;
       });
 
-      if (totalNumber) {
-        this.totalPrice = deliveryFee + subtotalPrice;
-        this.deliveryFee = deliveryFee;
-        this.dom.deliveryFee.innerHTML = deliveryFee;
-      } else {
-        this.totalPrice = 0;
-        this.deliveryFee = 0;
-        this.dom.deliveryFee.innerHTML = 0;
-      }
+      const isNoProductsSelected = (this.totalNumber === 0);
 
-      this.subtotalPrice = subtotalPrice;
-      this.totalNumber = totalNumber;
+      this.totalPrice = isNoProductsSelected ? 0 : (deliveryFee + this.subtotalPrice);
+      this.deliveryFee = isNoProductsSelected ? 0 : deliveryFee;
+      this.dom.deliveryFee.innerHTML = isNoProductsSelected ? 0 : deliveryFee;
 
-      this.dom.subtotalPrice.innerHTML = subtotalPrice;
-      this.dom.totalNumber.innerHTML = totalNumber;
+      this.dom.subtotalPrice.innerHTML = this.subtotalPrice;
+      this.dom.totalNumber.innerHTML = this.totalNumber;
 
       this.dom.totalPrice.forEach((totalPriceEl) => {
         totalPriceEl.innerHTML = this.totalPrice;
@@ -447,6 +440,7 @@
       this.amountWidget = new AmountWidget(this.dom.amountWidgetElem, this.amount);
       
       this.dom.amountWidgetElem.addEventListener('updated', () => {
+        this.amount = this.amountWidget.value
         this.price = this.priceSingle * this.amountWidget.value;
         this.dom.price.innerHTML = this.price;
       });
