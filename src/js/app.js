@@ -1,8 +1,44 @@
-import { settings, select } from "./settings.js";
+import { settings, select, classNames } from "./settings.js";
 import Product from "./components/Product.js";
 import Cart from "./components/Cart.js";
 
 const app = {
+  initPages: function () {
+    this.pages = document.querySelector(select.containerOf.pages).children;
+    this.navLinks = document.querySelectorAll(select.nav.links);
+
+    const idFromHash = window.location.hash.replace('#/', '');
+
+    let pageMatchingHash = this.pages[0].id;
+
+    for(let page of this.pages){
+      if(page.id === idFromHash){
+        pageMatchingHash = page.id;
+        break;
+      }
+    }
+
+    this.activatePage(pageMatchingHash);
+
+    for (let link of this.navLinks) {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        const id = event.target.getAttribute('href').replace('#', '');
+        this.activatePage(id);
+        window.location.hash = `#/${id}`;
+      });
+    }
+  },
+  activatePage: function (pageId) {
+    // add class to page with pageId and remove class from currently active page
+    for (let page of this.pages) {
+      page.classList.toggle(classNames.pages.active, page.id === pageId);
+    }
+
+    for (let link of this.navLinks) {
+      link.classList.toggle(classNames.nav.active, link.getAttribute('href') === `#${pageId}`);
+    }
+  },
   initMenu: function () {
     for (let productKey in this.data.products) {
       new Product(this.data.products[productKey].id, this.data.products[productKey]);
@@ -23,6 +59,7 @@ const app = {
       });
   },
   init: function () {
+    this.initPages();
     this.initData();
     this.initCart();
   },
@@ -30,11 +67,11 @@ const app = {
     const cartElem = document.querySelector(select.containerOf.cart);
     this.cart = new Cart(cartElem);
 
-     this.productList = document.querySelector(select.containerOf.menu);
+    this.productList = document.querySelector(select.containerOf.menu);
 
-     this.productList.addEventListener('add-to-cart', (event) => {
-        this.cart.add(event.detail.product);
-     })
+    this.productList.addEventListener('add-to-cart', (event) => {
+      this.cart.add(event.detail.product);
+    })
   }
 };
 
