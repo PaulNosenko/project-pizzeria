@@ -9,7 +9,15 @@ class DatePicker extends BaseWidget{
 
     thisWidget.dom.input = thisWidget.dom.wrapper.querySelector(select.widgets.datePicker.input);
     thisWidget.initPlugin();
+    this.initActions()
   }
+
+  initActions() {
+    this.dom.input.addEventListener('change', () => {
+      this.announce();
+    });
+  }
+
   initPlugin(){
     const thisWidget = this;
 
