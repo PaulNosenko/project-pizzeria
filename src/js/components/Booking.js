@@ -200,6 +200,8 @@ class Booking {
         fetch(url, options)
             .then(() => {
                 this.makeBooked(payload.date, payload.hour, payload.duration, payload.table);
+                this.updateDOM();
+                this.resetTableSelection();
             });
     }
 
@@ -211,6 +213,11 @@ class Booking {
         let starters = document.querySelectorAll('input[name="starter"]');
         starters = [...starters].filter(s => s.checked);
         return starters.map(s => s.value);
+    }
+
+    resetTableSelection() {
+        this.dom.tables.forEach((t) => t.classList.remove(classNames.booking.tableSelected))
+        this.selectedTable = null;
     }
 }
 

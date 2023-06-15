@@ -276,17 +276,16 @@
       ]
     },
     {
-      "date": "2023-06-17",
-      "hour": "12:30",
-      "table": 2,
+      "date": "2023-06-15",
+      "hour": "12:00",
+      "table": null,
       "duration": 1,
-      "ppl": 3,
+      "ppl": 1,
       "starters": [
-        "water",
-        "bread"
+        "water"
       ],
-      "address": "Address 1",
-      "phone": "123123123",
+      "address": "",
+      "phone": "",
       "id": 2
     },
     {
@@ -295,12 +294,43 @@
       "table": 2,
       "duration": 1,
       "ppl": 1,
-      "starters": [
-        "bread"
-      ],
-      "address": "123123",
-      "phone": "123132",
+      "starters": [],
+      "address": "",
+      "phone": "",
       "id": 3
+    },
+    {
+      "date": "2023-06-15",
+      "hour": "12:00",
+      "table": 1,
+      "duration": 1,
+      "ppl": 1,
+      "starters": [],
+      "address": "",
+      "phone": "",
+      "id": 4
+    },
+    {
+      "date": "2023-06-15",
+      "hour": "17:00",
+      "table": 1,
+      "duration": 1,
+      "ppl": 1,
+      "starters": [],
+      "address": "",
+      "phone": "",
+      "id": 5
+    },
+    {
+      "date": "2023-06-15",
+      "hour": "13:30",
+      "table": 1,
+      "duration": 1,
+      "ppl": 1,
+      "starters": [],
+      "address": "",
+      "phone": "",
+      "id": 6
     }
   ]
 }
