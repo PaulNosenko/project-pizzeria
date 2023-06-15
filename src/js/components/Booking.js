@@ -8,6 +8,7 @@ class Booking {
     constructor(wrapper) {
         this.render(wrapper);
         this.initWidgets();
+        this.initActions();
         this.getDate();
 
         this.selectedTable = null;
@@ -21,10 +22,11 @@ class Booking {
             hoursAmount: document.querySelector(select.booking.hoursAmount),
             datePicker: document.querySelector(select.widgets.datePicker.wrapper),
             hourPicker: document.querySelector(select.widgets.hourPicker.wrapper),
-            tables: document.querySelectorAll(select.booking.tables)
+            tables: document.querySelectorAll(select.booking.tables),
+            address: wrapper.querySelector(select.booking.address),
+            phone: wrapper.querySelector(select.booking.phone),
+            form: document.querySelector(select.booking.form)
         };
-
-        console.error('this.dom.tables', this.dom.tables);
     }
 
     initWidgets() {
@@ -32,7 +34,9 @@ class Booking {
         this.hoursAmountWidget = new AmountWidget(this.dom.hoursAmount);
         this.datePickerWidget = new DatePicker(this.dom.datePicker);
         this.hourPickerWidget = new HourPicker(this.dom.hourPicker);
+    }
 
+    initActions() {
         this.dom.wrapper.addEventListener('updated', () => {
             this.dom.tables.forEach(t => t.classList.remove(classNames.booking.tableSelected));
             this.selectedTable = null;
@@ -43,6 +47,11 @@ class Booking {
             table.addEventListener('click', (event) => {
                 this.initTables(event.currentTarget)
             });
+        });
+
+        this.dom.form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            this.sendBooking();
         });
     }
 
@@ -64,8 +73,6 @@ class Booking {
             const tableId = clickedTable.getAttribute('data-table');
             alert(`Table ${tableId} is unavailable at the selected data and/or time.`)
         }
-
-        console.error('this.selectedTable', this.selectedTable);
     }
 
     getDate() {
@@ -167,6 +174,43 @@ class Booking {
                 table.classList.remove(classNames.booking.tableBooked)
             }
         }
+    }
+
+    sendBooking() {
+        const url = settings.db.url + '/' + settings.db.bookings;
+        const payload = {
+            date: this.date,
+            hour: utils.numberToHour(this.hour),
+            table: this.getTableId(),
+            duration: this.hoursAmountWidget.correctValue,
+            ppl: this.peopleAmountWidget.correctValue,
+            starters: this.getStarters(),
+            address: this.dom.address.value,
+            phone: this.dom.phone.value,
+        };
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        };
+
+        fetch(url, options)
+            .then(() => {
+                this.makeBooked(payload.date, payload.hour, payload.duration, payload.table);
+            });
+    }
+
+    getTableId() {
+        return this.selectedTable ? parseInt(this.selectedTable.getAttribute('data-table')) : null;
+    }
+
+    getStarters() {
+        let starters = document.querySelectorAll('input[name="starter"]');
+        starters = [...starters].filter(s => s.checked);
+        return starters.map(s => s.value);
     }
 }
 
