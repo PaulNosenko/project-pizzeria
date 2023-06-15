@@ -8,8 +8,9 @@ class Booking {
     constructor(wrapper) {
         this.render(wrapper);
         this.initWidgets();
-
         this.getDate();
+
+        this.selectedTable = null;
     }
 
     render(wrapper) {
@@ -22,6 +23,8 @@ class Booking {
             hourPicker: document.querySelector(select.widgets.hourPicker.wrapper),
             tables: document.querySelectorAll(select.booking.tables)
         };
+
+        console.error('this.dom.tables', this.dom.tables);
     }
 
     initWidgets() {
@@ -30,9 +33,39 @@ class Booking {
         this.datePickerWidget = new DatePicker(this.dom.datePicker);
         this.hourPickerWidget = new HourPicker(this.dom.hourPicker);
 
-        this.dom.wrapper.addEventListener('updated', () => { 
+        this.dom.wrapper.addEventListener('updated', () => {
+            this.dom.tables.forEach(t => t.classList.remove(classNames.booking.tableSelected));
+            this.selectedTable = null;
             this.updateDOM();
         });
+
+        this.dom.tables.forEach(table => {
+            table.addEventListener('click', (event) => {
+                this.initTables(event.currentTarget)
+            });
+        });
+    }
+
+    initTables(clickedTable) {
+        if (!clickedTable.classList.contains(classNames.booking.tableBooked)) {
+            if (clickedTable === this.selectedTable) {
+                clickedTable.classList.remove(classNames.booking.tableSelected);
+                this.selectedTable = null;
+            } else {
+                const currentlySelected = [...this.dom.tables].find((t) => t.classList.contains(classNames.booking.tableSelected));
+                if (currentlySelected) {
+                    currentlySelected.classList.remove(classNames.booking.tableSelected);
+                }
+
+                clickedTable.classList.add(classNames.booking.tableSelected);
+                this.selectedTable = clickedTable;
+            }
+        } else {
+            const tableId = clickedTable.getAttribute('data-table');
+            alert(`Table ${tableId} is unavailable at the selected data and/or time.`)
+        }
+
+        console.error('this.selectedTable', this.selectedTable);
     }
 
     getDate() {
@@ -130,7 +163,7 @@ class Booking {
 
             if (!allAvailable && this.booked[this.date][this.hour].includes(tableId)) {
                 table.classList.add(classNames.booking.tableBooked)
-            }else {
+            } else {
                 table.classList.remove(classNames.booking.tableBooked)
             }
         }
