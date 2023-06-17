@@ -2,6 +2,7 @@ import { settings, select, classNames } from "./settings.js";
 import Product from "./components/Product.js";
 import Cart from "./components/Cart.js";
 import Booking from "./components/Booking.js";
+import Home from "./components/Home.js";
 
 const app = {
   initPages: function () {
@@ -12,8 +13,8 @@ const app = {
 
     let pageMatchingHash = this.pages[0].id;
 
-    for(let page of this.pages){
-      if(page.id === idFromHash){
+    for (let page of this.pages) {
+      if (page.id === idFromHash) {
         pageMatchingHash = page.id;
         break;
       }
@@ -64,11 +65,31 @@ const app = {
     const booking = new Booking(bookingContainer);
     this.booking = booking;
   },
+  initHome: function () {
+    const homeContainer = document.querySelector(select.containerOf.home);
+    const home = new Home(homeContainer);
+    this.home = home;
+
+    this.home.dom.orderLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      const id = event.currentTarget.getAttribute('href').replace('#', '');
+      this.activatePage(id);
+      window.location.hash = `#/${id}`;
+    });
+
+    this.home.dom.bookLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      const id = event.currentTarget.getAttribute('href').replace('#', '');
+      this.activatePage(id);
+      window.location.hash = `#/${id}`;
+    });
+  },
   init: function () {
     this.initPages();
     this.initData();
     this.initCart();
     this.initBooking();
+    this.initHome();
   },
   initCart: function () {
     const cartElem = document.querySelector(select.containerOf.cart);

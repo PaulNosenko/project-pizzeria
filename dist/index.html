@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Pizzeria</title>
+  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="vendor/range-slider.min.css">
   <link href="https://fonts.googleapis.com/css?family=Lato:400,300i,700%7COswald:300,500,700&amp;subset=latin-ext"
@@ -25,6 +27,7 @@
         </div>
 
         <div class="main-nav">
+          <a href="#home">home</a>
           <a href="#order">Order</a>
           <a href="#booking">Booking</a>
         </div>
@@ -67,6 +70,8 @@
   </header>
 
   <div id="pages">
+    <section id="home">
+    </section>
     <section id="order">
       <div id="product-list" class="product-list container"></div>
     </section>
@@ -248,6 +253,136 @@
     </div>
   </script>
 
+  <script id="template-home-page" type="text/x-handlebars-template">
+    <div id="home-wrapper" class="home__wrapper container">
+
+      <div class="home__cta">
+        <a href="#order" class="home__cta-link" id="home-cta-order">
+          <h2 class="h1">ORDER ONLINE</h2>
+          <h5>Delicious food delivered to your door</h5>
+        </a>
+        <a href="#booking" class="home__cta-link" id="home-cta-book">
+          <h2 class="h1">BOOK A TABLE</h2>
+          <h5>Make a reservation</h5>
+        </a>
+      </div>
+
+      <div class="home__hours">
+        <h2 class="h1">OPENING HOURS:</h2>
+        <h3 class="h3">TUE-SUN, 12PM-12AM</h3>
+      </div>
+
+      <!-- Carousel -->
+
+      <div class="home__carousel carousel"
+        data-flickity='{ "wrapAround": true, "autoPlay": true, "prevNextButtons": false }'>
+
+        <div class="carousel-cell">
+          <div class="carousel__img">
+            <img src="images/home/pizza-3.jpg" alt="feedback">
+          </div>
+
+          <div class="carousel__feedback">
+            <h2 class="carousel__title">
+              Lorem, ipsum dolor.
+            </h2>
+            <p class="carousel__text">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, maxime? Fugit labore modi libero! Sed,
+              dolor voluptate? Sequi, distinctio ipsa quae, ab animi, possimus molestias deleniti necessitatibus
+              nesciunt eius adipisci?
+            </p>
+
+            <p class="carousel__customer-name">
+              - Lorem, ipsum.
+            </p>
+          </div>
+        </div>
+
+        <div class="carousel-cell">
+          <div class="carousel__img">
+            <img src="images/home/pizza-3.jpg" alt="feedback">
+          </div>
+
+          <div class="carousel__feedback">
+            <h2 class="carousel__title">
+              Lorem, ipsum dolor.
+            </h2>
+            <p class="carousel__text">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, maxime? Fugit labore modi libero! Sed,
+              dolor voluptate? Sequi, distinctio ipsa quae, ab animi, possimus molestias deleniti necessitatibus
+              nesciunt eius adipisci?
+            </p>
+
+            <p class="carousel__customer-name">
+              - Lorem, ipsum.
+            </p>
+          </div>
+        </div>
+
+        <div class="carousel-cell">
+          <div class="carousel__img">
+            <img src="images/home/pizza-3.jpg" alt="feedback">
+          </div>
+
+          <div class="carousel__feedback">
+            <h2 class="carousel__title">
+              Lorem, ipsum dolor.
+            </h2>
+            <p class="carousel__text">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, maxime? Fugit labore modi libero! Sed,
+              dolor voluptate? Sequi, distinctio ipsa quae, ab animi, possimus molestias deleniti necessitatibus
+              nesciunt eius adipisci?
+            </p>
+
+            <p class="carousel__customer-name">
+              - Lorem, ipsum.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Gallery -->
+
+      <div class="home__gallery">
+
+        <div class="home__gallery-item" id="gallery-item-1">
+          <i class="fa-solid fa-heart"></i>
+          <i class="fa-solid fa-share-nodes"></i>
+        </div>
+
+        <div class="home__gallery-item" id="gallery-item-2">
+          <i class="fa-solid fa-heart"></i>
+          <i class="fa-solid fa-share-nodes"></i>
+        </div>
+
+        <div class="home__gallery-item" id="gallery-item-3">
+          <i class="fa-solid fa-heart"></i>
+          <i class="fa-solid fa-share-nodes"></i>
+        </div>
+
+        <div class="home__gallery-item" id="gallery-item-4">
+          <i class="fa-solid fa-heart"></i>
+          <i class="fa-solid fa-share-nodes"></i>
+        </div>
+
+        <div class="home__gallery-item" id="gallery-item-5">
+          <i class="fa-solid fa-heart"></i>
+          <i class="fa-solid fa-share-nodes"></i>
+        </div>
+
+        <div class="home__gallery-item" id="gallery-item-6">
+          <i class="fa-solid fa-heart"></i>
+          <i class="fa-solid fa-share-nodes"></i>
+        </div>
+      </div>
+
+      <a href="#" class="home__insta-link">View more on Instagram</a>
+
+    </div>
+  </script>
+
+  <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="vendor/range-slider.min.js"></script>
